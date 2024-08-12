@@ -1,5 +1,5 @@
 function Footer() {
-    retrun(
+    return(
         <div>Footer</div>
     )
 }

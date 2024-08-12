@@ -1,5 +1,5 @@
 function Header() {
-    retrun(
+    return(
         <div>Header</div>
     )
 }

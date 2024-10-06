@@ -10,7 +10,7 @@ export default function Post() {
     const slug = useParams();
     const userData = useSelector((state) => state.userdata);
 
-    const validUser = userData && post ? userData.userId==post.$id : false;
+    const author = userData && post ? userData.userId==post.$id : false;
     useEffect(() => {
         if(slug) {
             Service.getDoc(slug).then((post) => {
@@ -32,7 +32,7 @@ export default function Post() {
         return (
             <div className="w-full flex flex-wrap">
                 <img src={Service.getFilePreview(post.featured_imgae)} alt={post.title} className="rounded-xl"/>
-                {validUser ? (
+                {author ? (
                     <div>
                     <Link to={`/post_form/${post.$id}`}>
                     <Button type="submit">Edit</Button>

@@ -1,5 +1,5 @@
-import {Client, Databases, Query} from 'appwrite';
-import conf from '../conf'
+import {Client, Databases, Storage, Query} from 'appwrite';
+import conf from '../conf/conf'
 export class Config {
     client = new Client();
     databases;

@@ -21,10 +21,9 @@ function App() {
     })
   }, [])
   return !loading ? (
-    <div class="bg-blue-500 ">
-      <p>A Blog app with appwrite</p>
+    <div className="bg-green-50">
       <Header>Header</Header>
-      <main>
+      <main className='h-svh'>
         Main
       </main>
       <Footer>Footer</Footer>

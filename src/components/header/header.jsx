@@ -41,9 +41,8 @@ function Header() {
                         </li>
                          {navItems.map(item => 
                             item.isActive ? 
-                            (<li id={item.name}>
-                                <Link to={item.slug}></Link>
-                                {item.name}
+                            (<li key={item.name}>
+                                <Link to={item.slug}>{item.name}</Link>                                
                                 </li>)
                              : null
                         )}

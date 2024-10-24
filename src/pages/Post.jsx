@@ -5,18 +5,18 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Post() {
-    const [post, setPost] = useState([]);
+    const [post, setPost] = useState(null);
     const navigate = useNavigate();
-    const slug = useParams();
+    const { slug } = useParams();
     const userData = useSelector((state) => state.userdata);
 
-    const author = userData && post ? userData.userId==post.$id : false;
+    const author = userData && post ? userData.$id==post.user_id : false;
     useEffect(() => {
         if(slug) {
             Service.getDoc(slug).then((post) => {
                 setPost(post);
             })
-        }
+        } 
     }, [slug, navigate]);
 
     function deletePost() {
@@ -28,18 +28,17 @@ export default function Post() {
         })
     }
 
-    if(post) {
-        return (
+    return post ? (
             <div className="w-full flex flex-wrap">
-                <img src={Service.getFilePreview(post.featured_imgae)} alt={post.title} className="rounded-xl"/>
+                <img src={Service.getFilePreview(post.featured_image)} alt={post.title} className="rounded-xl"/>
                 {author ? (
                     <div>
-                    <Link to={`/post_form/${post.$id}`}>
+                    <Link to={`/editPost/${post.$id}`}>
                     <Button type="submit">Edit</Button>
                     </Link>
                     <Button onClick={deletePost}>
                         Delete
-                    </Button>
+                    </Button>                    
                     </div>
                 ) : null}
                 <div>
@@ -50,7 +49,5 @@ export default function Post() {
                 </div>
             </div>
         )
-    } else {
-        return null;
-    }
+    : (null) ;
 }

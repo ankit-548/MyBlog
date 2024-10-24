@@ -1,12 +1,12 @@
 import React from "react"
-import { useForm, } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import config from "../../appwrite/config"
 import { RTE, Input, Button, Select } from "../index"
 
-export default function PostForm(post) {
-    const [register, handleSubmit, getValue, setValue, watch] = useForm({
+export default function PostForm({post}) {
+    const {register, handleSubmit, getValue, setValue, watch, control} = useForm({
         defaultValues: "content"
     });
     const navigate = useNavigate();
@@ -28,25 +28,28 @@ export default function PostForm(post) {
             });
             navigate(`/post/${post.$id}`);
         } else {
-            const file = await config.uploadFile(data.file[0], data.featured_image);            
-            const doc = await config.createDoc({
-                slug: data?.slug || '',
-                title: data?.title || '',
-                content: data?.content || '',
-                featured_image: data?.featured_image || '',
-                status: data?.status || 'active',
-                userId: userData?.slug || '' 
-            });
-            navigate(`/post/${doc.slug}`);
+            const file = await config.uploadFile(data.image[0]);  
+            if(file) {
+                const fileId = file.$id;
+                data.featured_image = fileId;
+                const doc = await config.createDoc({
+                    ...data,
+                    user_id: userData.$id 
+                });
+                if(doc) {
+                    navigate(`/post/${doc.$id}`);
+                }
+            }
         }
     }
 
     // we have to watch title and to generate value in slug
     const slugTransform = React.useCallback((value) => {
-        if(value && typeof(value.title === String)) 
-            return value.title.trim()
+        if(value && typeof(value === String)) 
+            return value.trim()
             .toLowerCase()
-            .replace(/[a-zA-Z0-9]/g, '');
+            .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special characters
+            .replace(/\s+/g, '-') ;
         return '';
     }, []);
 
@@ -96,26 +99,25 @@ export default function PostForm(post) {
                 <Input
                 type="file"
                 label="Featured Image"
-                {...register('featured_image', {
+                {...register('image', {
                     required: !post
                 })}
                 />
-                {post ? (
-                    <img src={config.getFilePreview(post.featured_image)} 
+                {post ? ( 
+                    <div>
+                    <img src={config.getFilePreview(post.featured_image)}
                     alt={post.title}
-                    />
-                    ) : null}
-                {post ? (
-                    <Select
+                    /></div>
+                    ) : (null) }
+                <Select
+                    options={['active', 'inActive']}
                     label="Status: "
-                    option={['Active, InActive']}
                     {...register('status', {
                         required: true
                     })}
-                    />)
-                : null }
+                />
                 <Button type="submit"> 
-                    {post? "Update": "Insert"}
+                    {post? "Update": "Create"}
                 </Button>                
             </div>        
         </form>

@@ -1,4 +1,4 @@
-import {Client, Databases, Storage, Query} from 'appwrite';
+import {Client, Databases, Storage, Query, ID} from 'appwrite';
 import conf from '../conf/conf'
 export class Config {
     client = new Client();
@@ -12,13 +12,13 @@ export class Config {
         this.storage = new Storage(this.client);
     }
 
-    async createDoc({slug, title, content, featured_image, status, userId}) {
+    async createDoc({ title, slug, content, featured_image, status, user_id}) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDbId,
                 conf.appwriteCollectionId,
                 slug,
-                {title, content, featured_image, status, userId}
+                {title, content, featured_image, status, user_id}
             );
         } catch (error) {
             console.log("Appwrite service :: createDoc :: error", error);
@@ -68,7 +68,7 @@ export class Config {
 
     async getListDoc() {
         try {
-            return await this.storage.listDocuments(
+            return await this.databases.listDocuments(
                 conf.appwriteDbId,
                 conf.appwriteCollectionId,
                 [Query.equal('status', ['active'])]
@@ -79,12 +79,12 @@ export class Config {
         }
     }
 
-    async uploadFile(file, featured_image) {
+    async uploadFile(file) {
         try {
-            return await this.storage.createFIle(
+            return await this.storage.createFile(
                 conf.appwriteBucketId,
-                featured_image,
-                document.getElementById('uploader').file[0]
+                ID.unique(),
+                file
             );
         } catch (error) {
             console.log("Appwrite service :: uploadFile :: error", error);
@@ -104,10 +104,10 @@ export class Config {
     }
 
     // For this api we don't need async as it's response is too fast
-    getFilePreview(fileId) {
+    getFilePreview(featured_image) {
         return this.storage.getFilePreview(
             conf.appwriteBucketId,
-            fileId
+            featured_image
         );
     }
 

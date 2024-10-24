@@ -6,21 +6,24 @@ export default function AllPost() {
     const [posts, setPost] = useState([]);
     useEffect(() => {
         Service.getListDoc().then((posts) => {
+            console.log(posts)
             if(posts) {
-                setPost(posts.document)
+                setPost(posts.documents)
             }
         })
     }, [])
 
-    return posts.length>0 ? 
+    return posts?.length>0 ? 
     (
     <div className="w-full py-8">
         <Container>
+            <div className="">
             {posts.map(post => (
-                <div className="py-8" id={post.$id}>
+                <div className="py-8" key={post.$id}>
                     <PostCard post={post}/>
                 </div>
             ))}
+            </div>
         </Container>
     </div>
     ) 

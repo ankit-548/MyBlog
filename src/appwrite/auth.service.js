@@ -15,6 +15,7 @@ export class AuthService {
     async createAccount({email, password, name}) {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
+            console.log(userAccount);
             if(userAccount) {
                 // call another method to redirect user to 
                 return this.login({email, password});
@@ -29,6 +30,7 @@ export class AuthService {
 
     async login({email, password}) {
         try {
+            console.log(email, password);
            return await this.account.createEmailPasswordSession(email, password);
         } catch (error) {
             console.log("AppWrite service :: login :: error",error);
@@ -47,7 +49,8 @@ export class AuthService {
 
     async logOut() {
         try {
-            return this.account.deleteSession('current');
+            console.log('reached logout service')
+            return await this.account.deleteSession('current');
         } catch (error) {
             console.log("AppWrite service :: logOut :: error",error);
             throw error;

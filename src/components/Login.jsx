@@ -8,17 +8,17 @@ import { useForm } from "react-hook-form";
 
 function Login() {
     const navigate = useNavigate();
-    const dispatch = useDiapatch();
+    const dispatch = useDispatch();
     const [error, setError] = useState('');
     const{register, handleSubmit} = useForm();
 
     async function login(data) {
         try {
             setError('');
-            const userData = await authService.login(data.email, data.password);
+            const userData = await authService.login(data);
             if(userData) {
                 const userData = await authService.getLoggedInUser();
-                authLogin(dispatch(userData));
+                dispatch(authLogin(userData));
                 navigate('/');
             }
         } catch (error) {
@@ -27,24 +27,26 @@ function Login() {
     }
 
     return (
-        <div className="w-full rounded-xl">
-            <form onSubmit={handleSubmit(login())}>
-                <div>
-                    <div className="p-2"><Logo/></div>
+        <div className="w-full grid justify-items-center p-8">
+            <div className="bg-white p-4 rounded-xl hover:p-8">
+                <form onSubmit={handleSubmit(login)}>
                     <div>
-                        <p>Don't have a account?</p>
-                        <Link to='/signup'>signup</Link>
-                        <Input label='Email: ' type='email' placeholder='Enter email address' 
-                        {...register("email", {
-                            required: true
-                        })}/>
-                        <Input label="Password: " type="password"  placeholder="Enter your password" {...register("password", {
-                            required: true
-                        })}/>
-                        <Button type="submit">Sumbit</Button>
+                        <div className="flex justify-center mb-2"><Logo/></div>
+                        <div>
+                            <span>Don't have a account?</span>
+                            <Link className="text-blue-500 m-2" to='/signup'>signup</Link>
+                            <Input label='Email: ' type='email' placeholder='Enter email address' 
+                            {...register("email", {
+                                required: true
+                            })}/>
+                            <Input label="Password: " type="password"  placeholder="Enter your password" {...register("password", {
+                                required: true
+                            })}/>
+                            <Button type="submit">Sumbit</Button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     )
 }

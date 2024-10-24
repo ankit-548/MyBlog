@@ -3,17 +3,19 @@ import './App.css'
 import {Header, Footer} from './components/index'
 import { login, logout } from './store/authSlice'
 import { useDispatch } from 'react-redux'
-import authService from './appwrite/auth.service'
+import authService from './appwrite/auth.service';
+import { Outlet } from 'react-router-dom'
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   useEffect( () => {
     authService.getLoggedInUser()
     .then((userData) => {
       if(userData) {
-        useDispatch(login(userData));
+        dispatch(login({userData}));
       } else {
-        useDispatch(logout);
+        dispatch(logout());
       }
     }).catch("Loading Error....")
     .finally(() => {
@@ -21,14 +23,14 @@ function App() {
     })
   }, [])
   return !loading ? (
-    <div className="bg-green-50">
+    <div className="m-0 p-0 bg-green-50 w-full min-h-screen">
       <Header>Header</Header>
-      <main className='h-svh'>
-        Main
+      <main className='mb-5'>
+        <Outlet />
       </main>
       <Footer>Footer</Footer>
     </div>
   ) : (null);
 }
 
-export default App
+export default App;

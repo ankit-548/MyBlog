@@ -26,23 +26,23 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: (
-          // <AuthLayout authenticatin={false}>
+          <AuthLayout authenticatin={false}>
             <Login />
-          // </AuthLayout>
+          </AuthLayout>
         )
       },
       {
         path: "/signup",
         element: (
-          // <AuthLayout authenticatin={false}>
+          <AuthLayout authenticatin={false}>
             <Signup />
-          // </AuthLayout>
+          </AuthLayout>
         )
       },
       {
         path: "/addPost",
         element: (
-          <AuthLayout authenticatin={false}>
+          <AuthLayout authenticatin={true}>
             <AddPost />
           </AuthLayout>
         )
@@ -50,9 +50,9 @@ const router = createBrowserRouter([
       {
         path: "/allPost",
         element: (
-          <AuthLayout authenticatin={true}>
+          // <AuthLayout authenticatin={true}>
             <AllPost />
-          </AuthLayout>
+          // </AuthLayout>
         )
       },
       {

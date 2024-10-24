@@ -15,11 +15,13 @@ function Signup() {
     async function signup(data) {
         setError("");
         try {
-            const userData = await authService.createAccount(data.email, data.password, data.name);
-            if(userData) {
-                const userData = await authService.getLoggedInUser();
-                authLogin(dispatch(userData));
-                navigate('/');
+            if(data) {
+                const userData = await authService.createAccount(data);
+                if(userData) {
+                    const userData = await authService.getLoggedInUser();
+                    dispatch(authLogin(userData));
+                    navigate('/');
+                }
             }
         } catch (error) {
             console.log('Error occured', error.message);
@@ -27,18 +29,20 @@ function Signup() {
     }
 
     return (
-        <div className='w-full'>
-            <form onSubmit={handleSubmit(signup(data))}>
-                <div className='p-2'><Logo/></div>
-                <div>
-                    <p>Don't have a account?</p>
-                    <Link to='/signup'>signup</Link>
-                    <Input label="Name: " type="text" placeholder="Enter your name" {...register('name', {required: true})}/>
-                    <Input label='Email: ' type='email' placeholder='Enter your email' {...register('email', {required: true})}/>
-                    <Input label="password" type="password" placeholder="password" {...register('password', {required: true})}/>
-                    <Button type="submit">Submit</Button>
-                </div>
-            </form>
+        <div className='grid justify-items-center'>
+            <div className='bg-white p-4 m-2 rounded-lg hover:p-8'>
+                <form onSubmit={handleSubmit(signup)}>
+                    <div className='flex justify-center m-2 p-2'><Logo/></div>
+                    <div>
+                        <span>Don't have a account?</span>
+                        <Link  className='ml-2 text-blue-600' to='/login'>login</Link>
+                        <Input label="Name: " type="text" placeholder="Enter your name" {...register('name', {required: true})}/>
+                        <Input label='Email: ' type='email' placeholder='Enter your email' {...register('email', {required: true})}/>
+                        <Input label="password" type="password" placeholder="password" {...register('password', {required: true})}/>
+                        <Button type="submit">Submit</Button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

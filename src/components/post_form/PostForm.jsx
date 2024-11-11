@@ -100,7 +100,7 @@ export default function PostForm({post}) {
                 </div>
             </div>
             <div className="w-1/3">
-                <div className="m-4 p-4 bg-white">
+                <div className="m-4 p-4 bg-white rounded-xl">
                     <Input
                     type="file"
                     label="Featured Image: "

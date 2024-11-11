@@ -7,10 +7,8 @@ function LogoutButton() {
     const dispatch = useDispatch();
     function submitHandler(e) {
         e.preventDefault();
-        console.log('1')
         authService.logOut()
         .then(() => {
-            console.log('3')
             dispatch(logout())
         });
     }

@@ -16,14 +16,12 @@ export default function AllPost() {
     return posts?.length>0 ? 
     (
     <div className="w-full py-8">
-        <Container>
-            <div className="">
+        <Container className="flex flex-wrap justify-evenly md:justify-start">
             {posts.map(post => (
-                <div className="py-8" key={post.$id}>
-                    <PostCard post={post}/>
+                <div key={post.$id} className="m-2 p-2">
+                    <PostCard post={post} className="w-11/12  md:w-40 h-160"/>
                 </div>
             ))}
-            </div>
         </Container>
     </div>
     ) 

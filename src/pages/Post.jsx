@@ -9,7 +9,9 @@ export default function Post() {
     const navigate = useNavigate();
     const { slug } = useParams();
     const userData = useSelector((state) => state.userdata);
+    console.log(userData, post, 'nothing in post')
     const author = userData && post ? userData.$id==post.user_id : false;
+    console.log(author)
     useEffect(() => {
         if(slug) {
             Service.getDoc(slug).then((post) => {
@@ -44,11 +46,11 @@ export default function Post() {
                         </div>
                     </div>
                     {author ? (
-                        <div className="flex justify-center">
+                        <div className="flex justify-between">
                         <Link to={`/editPost/${post.$id}`}>
-                        <Button className="w-20" type="submit">Edit</Button>
+                        <Button className="w-24" type="submit">Edit</Button>
                         </Link>
-                        <Button className="p-4 w-20" onClick={deletePost}>
+                        <Button className="w-10" onClick={deletePost}>
                             Delete
                         </Button>                    
                         </div>

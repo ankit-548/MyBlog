@@ -60,7 +60,7 @@ function Header() {
                                 : null
                             )}
                             {authStatus && (
-                                <li>
+                                <li key='logoutbtn'>
                                     <LogoutButton />
                                 </li>
                             )}

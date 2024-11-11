@@ -27,8 +27,8 @@ function Login() {
     }
 
     return (
-        <div className="w-full grid justify-items-center p-8">
-            <div className="bg-white p-4 rounded-xl hover:p-8">
+        <div className="w-full grid justify-items-center m-8">
+            <div className="bg-white p-4 m-8 rounded-xl hover:p-8 hover:m-4">
                 <form onSubmit={handleSubmit(login)}>
                     <div>
                         <div className="flex justify-center mb-2"><Logo/></div>

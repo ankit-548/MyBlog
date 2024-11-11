@@ -29,8 +29,8 @@ function Signup() {
     }
 
     return (
-        <div className='grid justify-items-center'>
-            <div className='bg-white p-4 m-2 rounded-lg hover:p-8'>
+        <div className='grid justify-items-center m-8'>
+            <div className='bg-white p-4 m-8 rounded-lg hover:p-8 hover:m-4'>
                 <form onSubmit={handleSubmit(signup)}>
                     <div className='flex justify-center m-2 p-2'><Logo/></div>
                     <div>

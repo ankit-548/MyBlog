@@ -71,54 +71,61 @@ export default function PostForm({post}) {
     return (
         <form onSubmit={handleSubmit(submit)} className="w-full flex flex-wrap">
             <div className="w-2/3">
-                <Input 
-                type="text"
-                label="Title: "
-                placeholder="Title"
-                {...register('title', {
-                    required: true
-                })}
-                />
-                <Input
-                label="Slug: "
-                placeholder="Slug"
-                {...register('slug', {
-                    required: true
-                })}
-                onInput={(e) => {setValue('slug', slugTransform(e.currentTarget.value), {shouldValidate: true})
-                }}
-                />
-                <RTE
-                name="content"
-                label="Content: "
-                control={control}
-                defaultValue="Content"
-                />
-            </div>
-            <div className="w-1/3">
-                <Input
-                type="file"
-                label="Featured Image"
-                {...register('image', {
-                    required: !post
-                })}
-                />
-                {post ? ( 
-                    <div>
-                    <img src={config.getFilePreview(post.featured_image)}
-                    alt={post.title}
-                    /></div>
-                    ) : (null) }
-                <Select
-                    options={['active', 'inActive']}
-                    label="Status: "
-                    {...register('status', {
+                <div className="bg-white rounded-xl m-4 p-4">
+                    <Input 
+                    type="text"
+                    label="Title: "
+                    placeholder="Title"
+                    {...register('title', {
                         required: true
                     })}
-                />
-                <Button type="submit"> 
-                    {post? "Update": "Create"}
-                </Button>                
+                    />
+                    <Input
+                    label="Slug: "
+                    placeholder="Slug"
+                    {...register('slug', {
+                        required: true
+                    })}
+                    onInput={(e) => {setValue('slug', slugTransform(e.currentTarget.value), {shouldValidate: true})
+                    }}
+                    />
+                </div>
+                <div className="m-4">
+                    <RTE
+                    name="content"
+                    label="Content: "
+                    control={control}
+                    defaultValue="Content"
+                    />
+                </div>
+            </div>
+            <div className="w-1/3">
+                <div className="m-4 p-4 bg-white">
+                    <Input
+                    type="file"
+                    label="Featured Image: "
+                    {...register('image', {
+                        required: !post
+                    })}
+                    />
+                    {post ? ( 
+                        <div className="flex justify-center">
+                        <img className="rounded-xl" src={config.getFilePreview(post.featured_image)}
+                        alt={post.title}
+                        /></div>
+                        ) : (null) }
+                    <Select
+                        className="bg-green-100"
+                        options={['active', 'inActive']}
+                        label="Status: "
+                        {...register('status', {
+                            required: true
+                        })}
+                    />
+                    <Button type="submit"> 
+                        {post? "Update": "Create"}
+                    </Button>
+                </div>
             </div>        
         </form>
     )

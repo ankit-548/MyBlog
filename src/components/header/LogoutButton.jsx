@@ -6,17 +6,18 @@ function LogoutButton() {
     // const userData = useSelector(state => state.userdata);
     const dispatch = useDispatch();
     function submitHandler(e) {
-        console.log('reached logout submitHandler')
+        e.preventDefault();
+        console.log('1')
         authService.logOut()
         .then(() => {
-            console.log('reached logout')
-            return dispatch(logout())
+            console.log('3')
+            dispatch(logout())
         });
     }
 
     return (
         <div className="bg-orange-400 p-2 m-2 rounded-lg hover:bg-orange-100">
-            <form onSubmit={submitHandler}>
+            <form onClick={submitHandler}>
                 <button>Logout</button>
             </form>
         </div>

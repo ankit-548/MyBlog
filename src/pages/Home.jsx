@@ -30,7 +30,7 @@ export default function Home() {
             <div className="w-full py-8">
                 <Container className="flex flex-wrap justify-evenly md:justify-start">
                     {posts.map(post => (
-                        <div id={post.$id} className="m-2 p-2">
+                        <div key={post.$id} className="m-2 p-2">
                             <PostCard post={post} className="w-11/12  md:w-40 h-160"/>
                         </div>
                     ))}

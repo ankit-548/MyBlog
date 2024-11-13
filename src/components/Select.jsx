@@ -4,6 +4,7 @@ function Select({
     label,
     options,
     className='',
+    value='',
     ...props
 }, ref) {
     const id = useId();
@@ -12,7 +13,7 @@ function Select({
             {label && <label htmlFor={id} className=''></label>}
             <select {...props}  id={id} ref={ref} className={`w-full m-2 p-2 rounded-lg ${className}`} >
                 {options?.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option} selected={value==option? true: false}>{option}</option>
                 ))}
             </select>
         </div>

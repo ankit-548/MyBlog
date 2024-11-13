@@ -78,6 +78,18 @@ export class Config {
             return false;
         }
     }
+    async getListDocAll() {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDbId,
+                conf.appwriteCollectionId,
+                [Query.equal('status', ['active','inactive'])]
+            );
+        } catch (error) {
+            console.log("Appwrite service :: getListDoc :: errro", error);
+            return false;
+        }
+    }
 
     async uploadFile(file) {
         try {

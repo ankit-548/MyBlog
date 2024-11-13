@@ -5,7 +5,7 @@ import Service from "../appwrite/config";
 export default function AllPost() {
     const [posts, setPost] = useState([]);
     useEffect(() => {
-        Service.getListDoc().then((posts) => {
+        Service.getListDocAll().then((posts) => {
             console.log(posts)
             if(posts) {
                 setPost(posts.documents)

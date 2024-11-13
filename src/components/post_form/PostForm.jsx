@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import config from "../../appwrite/config"
 import { RTE, Input, Button, Select } from "../index"
+import { htmlToText } from "html-to-text"
 
 export default function PostForm({post}) {
     const {register, handleSubmit, getValue, setValue, watch, control} = useForm({
@@ -11,21 +12,32 @@ export default function PostForm({post}) {
     });
     const navigate = useNavigate();
     const userData = useSelector((state) => state.userdata);
-
+    console.log(userData);
     const submit = async (data) => {
+        console.log('reached submit ', data)
         if(post) {
-            const file = await config.uploadFile(data.file[0], data.featured_image);
-            if(file) {
-                await config.deleteFile(data.featured_image);
+            console.log('reached submit post', data)
+            if(data.image[0]) {
+                console.log('reached submit post image', data)
+                const file = await config.uploadFile(data.image[0], data.featured_image);
+                const fileId = file.$id;
+                data.featured_image = fileId;
             }
-            await config.updateDoc({
+            const updateData = {
                 slug: post?.$id || '',
                 title: data?.title || '',
                 content: data?.content || '',
-                featured_image: data?.featured_image || '',
-                status: data?.status || 'active',
-                userId: userData?.slug || '' 
-            });
+                status: data?.status || 'active'
+            }
+            console.log('reached submit post pre final', data)
+            if(data.featured_image) {
+                console.log('reached submit post-file', file)
+                await config.deleteFile(data.featured_image);
+                updateData.featured_image =  data.featured_image
+            }
+            
+            console.log('reached submit post final', updateData)
+            await config.updateDoc(updateData);
             navigate(`/post/${post.$id}`);
         } else {
             const file = await config.uploadFile(data.image[0]);  
@@ -68,6 +80,13 @@ export default function PostForm({post}) {
           subscription.unsubscribe();  
         } 
     }, [slugTransform, watch, setValue])
+
+    React.useEffect(() => {
+        if(post) {
+            setValue('title', post.title)
+            setValue('slug', post.$id)
+        }
+    },[post])
     return (
         <form onSubmit={handleSubmit(submit)} className="w-full flex flex-wrap">
             <div className="w-2/3">
@@ -82,6 +101,7 @@ export default function PostForm({post}) {
                     />
                     <Input
                     label="Slug: "
+                    disabled=""
                     placeholder="Slug"
                     {...register('slug', {
                         required: true
@@ -95,7 +115,7 @@ export default function PostForm({post}) {
                     name="content"
                     label="Content: "
                     control={control}
-                    defaultValue="Content"
+                    defaultValue={post? htmlToText(post.content): "Content"}
                     />
                 </div>
             </div>
@@ -118,11 +138,12 @@ export default function PostForm({post}) {
                         className="bg-green-100"
                         options={['active', 'inActive']}
                         label="Status: "
+                        value={post? post.status: ''}
                         {...register('status', {
                             required: true
                         })}
                     />
-                    <Button type="submit"> 
+                    <Button type="submit" className="w-4/5"> 
                         {post? "Update": "Create"}
                     </Button>
                 </div>

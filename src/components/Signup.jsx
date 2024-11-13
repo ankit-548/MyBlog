@@ -39,7 +39,7 @@ function Signup() {
                         <Input label="Name: " type="text" placeholder="Enter your name" {...register('name', {required: true})}/>
                         <Input label='Email: ' type='email' placeholder='Enter your email' {...register('email', {required: true})}/>
                         <Input label="password" type="password" placeholder="password" {...register('password', {required: true})}/>
-                        <Button type="submit">Submit</Button>
+                        <Button className="w-4/5" type="submit">Submit</Button>
                     </div>
                 </form>
             </div>

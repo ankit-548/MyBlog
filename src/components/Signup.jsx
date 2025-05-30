@@ -10,8 +10,8 @@ function Signup() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState();
-    const { register, handleSubmit } = useForm();
-    
+    const { register, handleSubmit, formState: {errors} } = useForm();
+    console.log(errors, '1')
     async function signup(data) {
         setError("");
         try {
@@ -24,7 +24,7 @@ function Signup() {
                 }
             }
         } catch (error) {
-            console.log('Error occured', error.message);
+            console.log('Error occured', error.message);            
         }
     }
 
@@ -34,11 +34,14 @@ function Signup() {
                 <form onSubmit={handleSubmit(signup)}>
                     <div className='flex justify-center m-2 p-2'><Logo/></div>
                     <div>
-                        <span>Don't have a account?</span>
+                        <span>Already registered?</span>
                         <Link  className='ml-2 text-blue-600' to='/login'>login</Link>
                         <Input label="Name: " type="text" placeholder="Enter your name" {...register('name', {required: true})}/>
+                        {errors.name && <p className='text-red-600'>name is required</p>}
                         <Input label='Email: ' type='email' placeholder='Enter your email' {...register('email', {required: true})}/>
+                        {errors.email && <p className='text-red-600'>email is required</p>}
                         <Input label="password" type="password" placeholder="password" {...register('password', {required: true})}/>
+                        {errors.password && <p className='text-red-600'>password is required</p>}
                         <Button className="w-4/5" type="submit">Submit</Button>
                     </div>
                 </form>

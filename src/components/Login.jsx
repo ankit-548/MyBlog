@@ -10,8 +10,8 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState('');
-    const{register, handleSubmit} = useForm();
-
+    const{register, handleSubmit, formState: {errors}} = useForm();
+    console.log(errors, '1')
     async function login(data) {
         try {
             setError('');
@@ -33,15 +33,17 @@ function Login() {
                     <div>
                         <div className="flex justify-center mb-2"><Logo/></div>
                         <div>
-                            <span>Don't have a account?</span>
+                            <span>Don't have an account?</span>
                             <Link className="text-blue-500 m-2" to='/signup'>signup</Link>
                             <Input label='Email: ' type='email' placeholder='Enter email address' 
                             {...register("email", {
                                 required: true
                             })}/>
+                            {errors.email && <p className="text-red-500">email is required</p>}
                             <Input label="Password: " type="password"  placeholder="Enter your password" {...register("password", {
                                 required: true
                             })}/>
+                            {errors.password && <p className="text-red-500">password is required</p>}
                             <Button className="w-4/5" type="submit">Sumbit</Button>
                         </div>
                     </div>
